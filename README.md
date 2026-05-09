@@ -34,12 +34,14 @@ simulador-escalonamento/
 Para garantir que o simulador rode da mesma forma em todas as máquinas sem problemas de dependências, utilize o Docker.
 
 1. **Construa a imagem e suba o container:**
+
    ```bash
    docker compose build
    docker compose up -d
    ```
 
 2. **Execute o simulador via terminal do container:**
+
    ```bash
    docker exec -it simulador_so python src/main.py --alg CFS-Sim --input inputs/caso1.json --gantt outputs/caso1.png
    ```
@@ -75,5 +77,11 @@ docker compose up -d
 
 ## Saídas
 O simulador gerará na pasta `outputs/`:
-**Gráfico de Gantt (.png):** Visualização da execução, mostrando blocos de execução (verde), sobrecarga de contexto (vermelho) e estouro de deadline (cinza).
-**Tabela de Métricas:** Resumo quantitativo contendo tempo de espera, turnaround, throughput e % de ociosidade da CPU.
+
+- **Gráfico de Gantt (.png):** Visualização da execução, mostrando blocos de execução (verde), sobrecarga de contexto (vermelho) e estouro de deadline (cinza).
+
+- **Tabela de Métricas:** Resumo quantitativo contendo:
+  - tempo de espera
+  - turnaround
+  - throughput
+  - % de ociosidade da CPU
