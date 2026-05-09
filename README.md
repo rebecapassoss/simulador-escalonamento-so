@@ -1,25 +1,19 @@
 # Simulador de Escalonamento de Processos
 
-[cite_start]Este repositório contém a implementação de um simulador de eventos discretos para algoritmos de escalonamento de processos, desenvolvido como trabalho da disciplina de Sistemas Operacionais[cite: 1, 3].
+Este repositório contém a implementação de um simulador de eventos discretos para algoritmos de escalonamento de processos, desenvolvido como trabalho da disciplina de Sistemas Operacionais (MATA58)
 
-[cite_start]O objetivo principal é avaliar o impacto de sobrecargas de contexto, deadlines e prioridades no desempenho do sistema [cite: 4][cite_start], incluindo uma análise simplificada do algoritmo CFS (Completely Fair Scheduler) do Linux[cite: 5, 14].
+O objetivo principal é avaliar o impacto de sobrecargas de contexto, deadlines e prioridades no desempenho do sistema, incluindo uma análise simplificada do algoritmo CFS (Completely Fair Scheduler) do Linux.
 
-## 👥 Equipe
-* [Seu Nome] - Infraestrutura e Motor de Simulação
-* [Nome do Colega 2] - Algoritmos Clássicos
-* [Nome do Colega 3] - CFS-Sim e Algoritmo Autoral
-* [Nome do Colega 4] - Visualização de Dados e Relatório
+## Algoritmos Implementados
+1. **FIFO / FCFS** (Não preemptivo) 
+2. **SJF** - Shortest Job First (Não preemptivo) 
+3. **Round-Robin** (Preemptivo com quantum fixo) 
+4. **Prioridades** (Preemptivo) 
+5. **EDF** - Earliest Deadline First (Preemptivo) 
+6. **CFS-Sim** - Completely Fair Scheduler Simplificado (Preemptivo, baseado em tempo virtual) 
+7. **Autoral** - [Nome do algoritmo a ser definido] 
 
-## 🚀 Algoritmos Implementados
-1. [cite_start]**FIFO / FCFS** (Não preemptivo) [cite: 9]
-2. [cite_start]**SJF** - Shortest Job First (Não preemptivo) [cite: 10]
-3. [cite_start]**Round-Robin** (Preemptivo com quantum fixo) [cite: 11]
-4. [cite_start]**Prioridades** (Preemptivo) [cite: 12]
-5. [cite_start]**EDF** - Earliest Deadline First (Preemptivo) [cite: 13]
-6. [cite_start]**CFS-Sim** - Completely Fair Scheduler Simplificado (Preemptivo, baseado em tempo virtual) [cite: 14, 59-63]
-7. [cite_start]**Autoral** - [Nome do algoritmo a ser definido] [cite: 15]
-
-## 📁 Estrutura do Repositório
+## Estrutura do Repositório
 
 \`\`\`text
 simulador-escalonamento/
@@ -35,14 +29,14 @@ simulador-escalonamento/
 └── requirements.txt    # Dependências do Python (pandas, matplotlib)
 \`\`\`
 
-## 🛠️ Como Executar (Recomendado via Docker)
+## Como Executar (Recomendado via Docker)
 
 Para garantir que o simulador rode da mesma forma em todas as máquinas sem problemas de dependências, utilize o Docker.
 
 1. **Construa a imagem e suba o container:**
    \`\`\`bash
-   docker-compose build
-   docker-compose up -d
+   docker compose build
+   docker compose up -d
    \`\`\`
 
 2. **Execute o simulador via terminal do container:**
@@ -50,9 +44,9 @@ Para garantir que o simulador rode da mesma forma em todas as máquinas sem prob
    docker exec -it simulador_so python src/main.py --alg CFS-Sim --input inputs/caso1.json --gantt outputs/caso1.png
    \`\`\`
 
-## ⚙️ Formato de Entrada (JSON)
+## Formato de Entrada (JSON)
 
-[cite_start]Os casos de teste devem estar na pasta `inputs/` seguindo o formato abaixo [cite: 89-99]:
+Os casos de teste devem estar na pasta `inputs/` seguindo o formato abaixo:
 
 \`\`\`json
 {
@@ -66,7 +60,7 @@ Para garantir que o simulador rode da mesma forma em todas as máquinas sem prob
 }
 \`\`\`
 
-## 📊 Saídas
+## Saídas
 O simulador gerará na pasta `outputs/`:
-* [cite_start]**Gráfico de Gantt (.png):** Visualização da execução, mostrando blocos de execução (verde), sobrecarga de contexto (vermelho) e estouro de deadline (cinza) [cite: 48-53].
-* [cite_start]**Tabela de Métricas:** Resumo quantitativo contendo tempo de espera, turnaround, throughput e % de ociosidade da CPU [cite: 56-57].
+**Gráfico de Gantt (.png):** Visualização da execução, mostrando blocos de execução (verde), sobrecarga de contexto (vermelho) e estouro de deadline (cinza).
+**Tabela de Métricas:** Resumo quantitativo contendo tempo de espera, turnaround, throughput e % de ociosidade da CPU.
