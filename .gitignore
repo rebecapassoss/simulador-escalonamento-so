@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Outputs do Simulador
+outputs/*
+!outputs/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
