@@ -55,13 +55,23 @@ docker compose up -d
   "sobrecarga_contexto": 1,
   "seed": 42,
   "processos": [
-    {"id": "P1", "chegada": 0, "execucao": 5, "deadline": 8, "prioridade": 2},
-    {"id": "P2", "chegada": 1, "execucao": 4, "deadline": 12, "prioridade": 1}
+    {
+      "id": "P1",
+      "chegada": 0,
+      "execucao": 5,
+      "deadline": 8,
+      "prioridade": 2
+    },
+    {
+      "id": "P2",
+      "chegada": 1,
+      "execucao": 4,
+      "deadline": 12,
+      "prioridade": 1
+    }
   ]
 }
-docker compose up -d
 ```
-
 
 ## Saídas
 O simulador gerará na pasta `outputs/`:
