@@ -15,7 +15,7 @@ O objetivo principal é avaliar o impacto de sobrecargas de contexto, deadlines 
 
 ## Estrutura do Repositório
 
-\`\`\`text
+'''text
 simulador-escalonamento/
 ├── src/                # Código-fonte principal
 │   ├── algorithms/     # Lógicas de escalonamento (FIFO, RR, CFS, etc.)
@@ -27,28 +27,28 @@ simulador-escalonamento/
 ├── Dockerfile          # Configuração da imagem Docker
 ├── docker-compose.yml  # Orquestração do container
 └── requirements.txt    # Dependências do Python (pandas, matplotlib)
-\`\`\`
+'''
 
 ## Como Executar (Recomendado via Docker)
 
 Para garantir que o simulador rode da mesma forma em todas as máquinas sem problemas de dependências, utilize o Docker.
 
 1. **Construa a imagem e suba o container:**
-   \`\`\`bash
+   '''bash
    docker compose build
    docker compose up -d
-   \`\`\`
+   '''
 
 2. **Execute o simulador via terminal do container:**
-   \`\`\`bash
+   '''bash
    docker exec -it simulador_so python src/main.py --alg CFS-Sim --input inputs/caso1.json --gantt outputs/caso1.png
-   \`\`\`
+   '''
 
 ## Formato de Entrada (JSON)
 
 Os casos de teste devem estar na pasta `inputs/` seguindo o formato abaixo:
 
-\`\`\`json
+'''json
 {
   "quantum": 2,
   "sobrecarga_contexto": 1,
@@ -58,7 +58,7 @@ Os casos de teste devem estar na pasta `inputs/` seguindo o formato abaixo:
     {"id": "P2", "chegada": 1, "execucao": 4, "deadline": 12, "prioridade": 1}
   ]
 }
-\`\`\`
+'''
 
 ## Saídas
 O simulador gerará na pasta `outputs/`:
