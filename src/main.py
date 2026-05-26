@@ -1,25 +1,55 @@
-import json
 import os
 
-def main():
-    print("Iniciando simulador...")
-    
-    # Testa a leitura do volume de inputs
-    input_path = "inputs/caso1.json"
-    if os.path.exists(input_path):
-        with open(input_path, 'r') as f:
-            dados = json.load(f)
-            print(f"JSON lido com sucesso! Semente configurada: {dados.get('seed')}")
-            print(f"Total de processos carregados: {len(dados.get('processos', []))}")
-    else:
-        print("Erro: Arquivo input.json não encontrado.")
+from utils.parser import parse_args
+from utils.loader import load_processes
+from utils.logger import setup_logger
+from utils.directories import create_output_dirs
+from utils.save_results import save_gantt
 
-    # Testa a escrita no volume de outputs
-    output_path = "outputs/teste_infra.txt"
-    with open(output_path, 'w') as f:
-        f.write("A infraestrutura do Docker está funcionando perfeitamente! Os volumes estão mapeados.")
-    
-    print("Arquivo de teste salvo na pasta outputs/.")
+from algorithms.edf import EDFScheduler
+from algorithms.prioridade import PriorityScheduler
+
+
+
+
+def main():
+
+    # CLI
+    args = parse_args()
+
+    # Logger
+    logger = setup_logger()
+
+    logger.info("Iniciando simulador")
+
+    create_output_dirs()
+
+    # Carrega JSON
+    dados, processos = load_processes(args.input)
+
+    logger.info(f"{len(processos)} processos carregados")
+
+    # Seleção do algoritmo
+    if args.alg.upper() == "EDF":
+
+        scheduler = EDFScheduler()
+
+    elif args.alg.upper() == "PRIORITY":
+
+        scheduler = PriorityScheduler()
+
+    else:
+        raise ValueError("Algoritmo inválido")
+
+    # Executa
+    resultado = scheduler.run(processos)
+
+    logger.info("Simulação concluída")
+
+    save_gantt(resultado, args.alg)
+
+    print("Resultado salvo com sucesso")
+
 
 if __name__ == "__main__":
     main()

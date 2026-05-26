@@ -1,11 +1,18 @@
 version: '3.8'
 
 services:
+
   simulador:
+
     build: .
+
     container_name: simulador_so
+
     volumes:
       - ./src:/app/src
       - ./inputs:/app/inputs
       - ./outputs:/app/outputs
-    entrypoint: ["tail", "-f", "/dev/null"]
+
+    command: >
+      --alg EDF
+      --input inputs/caso1.json

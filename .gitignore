@@ -8,8 +8,15 @@ env/
 
 # Outputs do Simulador
 outputs/*
-!outputs/.gitkeep
+outputs/gantt/*
+outputs/logs/*
+outputs/metrics/*
+outputs/tables/*
 
+!outputs/gantt/.gitkeep
+!outputs/logs/.gitkeep
+!outputs/metrics/.gitkeep
+!outputs/tables/.gitkeep
 # IDEs
 .vscode/
 .idea/
