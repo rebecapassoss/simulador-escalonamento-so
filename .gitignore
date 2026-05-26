@@ -7,7 +7,6 @@ venv/
 env/
 
 # Outputs do Simulador
-outputs/*
 outputs/gantt/*
 outputs/logs/*
 outputs/metrics/*
