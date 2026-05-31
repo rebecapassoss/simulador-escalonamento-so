@@ -8,6 +8,7 @@ from utils.save_results import save_gantt
 
 from algorithms.edf import EDFScheduler
 from algorithms.prioridade import PriorityScheduler
+from algorithms.cfs import CFSScheduler
 
 
 
@@ -37,6 +38,10 @@ def main():
     elif args.alg.upper() == "PRIORITY":
 
         scheduler = PriorityScheduler()
+        
+    elif args.alg.upper() == "CFS":
+
+        scheduler = CFSScheduler()
 
     else:
         raise ValueError("Algoritmo inválido")

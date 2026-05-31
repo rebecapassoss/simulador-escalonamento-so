@@ -6,21 +6,11 @@ class EDFScheduler:
         prontos = []
         gantt = []
 
-        processos = [
-            {
-                "id": p.pid,
-                "tempo_chegada": p.chegada,
-                "execucao": p.execucao,
-                "deadline": p.deadline
-            }
-            for p in processos
-        ]
-
         while processos or prontos:
 
             for p in processos[:]:
 
-                if p['tempo_chegada'] <= tempo:
+                if p.chegada <= tempo:
 
                     prontos.append(p)
                     processos.remove(p)
@@ -31,18 +21,18 @@ class EDFScheduler:
 
                 for p in prontos:
 
-                    if p['deadline'] < menor['deadline']:
+                    if p.deadline < menor.deadline:
 
                         menor = p
 
                 gantt.append({
-                    'processo': menor['id'],
+                    'processo': menor.pid,
                     'tempo': tempo
                 })
 
-                menor['execucao'] -= 1
+                menor.restante -= 1
 
-                if menor['execucao'] == 0:
+                if menor.restante == 0:
 
                     prontos.remove(menor)
 

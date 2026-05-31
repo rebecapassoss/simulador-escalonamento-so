@@ -19,6 +19,7 @@ class Process:
 
         self.inicio = None
         self.termino = None
+        self.vruntime = 0
 
     def __repr__(self):
         return f"{self.pid}"
