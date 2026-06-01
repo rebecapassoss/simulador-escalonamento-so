@@ -1,7 +1,5 @@
-class PriorityScheduler:
-
+class CFSScheduler:
     def run(self, processos):
-        
         tempo = 0
         prontos = []
         gantt = []
@@ -9,21 +7,24 @@ class PriorityScheduler:
         while processos or prontos:
             for p in processos[:]:
                 if p.chegada <= tempo:
+                    p.vruntime = 0
                     prontos.append(p)
                     processos.remove(p)
-                    
             if prontos:
-                maior = prontos[0]
+                menor = prontos[0]
                 for p in prontos:
-                    if p.prioridade > maior.prioridade:
-                        maior =p
+                    if p.vruntime < menor.vruntime:
+                        menor = p     
                 gantt.append({
-                    'processo': maior.pid,
-                    'tempo': tempo
+                    "processo": menor.pid,
+                    "tempo": tempo
                 })
-                maior.restante -= 1
-                if maior.restante == 0:
-                    prontos.remove(maior)
+                
+                menor.restante -= 1
+                menor.vruntime += 1
+
+                if menor.restante == 0:
+                    prontos.remove(menor)
             else:
                 gantt.append({
                     "tempo": tempo,
