@@ -10,6 +10,9 @@ from utils.save_results import save_gantt, save_metrics
 from algorithms.edf import EDFScheduler
 from algorithms.prioridade import PriorityScheduler
 from algorithms.cfs import CFSScheduler
+from algorithms.fcfs import FCFSScheduler
+from algorithms.sjf  import SJFScheduler
+from algorithms.round_robin import RoundRobinScheduler
 
 
 
@@ -43,6 +46,21 @@ def main():
     elif args.alg.upper() == "CFS":
 
         scheduler = CFSScheduler()
+        
+    elif args.alg.upper() == "FCFS":
+
+        scheduler = FCFSScheduler()
+
+    elif args.alg.upper() == "SJF":
+
+        scheduler = SJFScheduler()
+
+    elif args.alg.upper() == "ROUND_ROBIN":
+
+        scheduler = RoundRobinScheduler(
+            quantum=dados.get("quantum", 2),
+            sobrecarga=dados.get("sobrecarga", 1)
+        )
 
     else:
         raise ValueError("Algoritmo inválido")
