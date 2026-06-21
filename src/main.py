@@ -13,6 +13,7 @@ from algorithms.cfs import CFSScheduler
 from algorithms.fcfs import FCFSScheduler
 from algorithms.sjf  import SJFScheduler
 from algorithms.round_robin import RoundRobinScheduler
+from algorithms.eua import EUAScheduler
 
 
 
@@ -58,6 +59,13 @@ def main():
     elif args.alg.upper() == "ROUND_ROBIN":
 
         scheduler = RoundRobinScheduler(
+            quantum=dados.get("quantum", 2),
+            sobrecarga=dados.get("sobrecarga", 1)
+        )
+
+    elif args.alg.upper() == "EUA":
+
+        scheduler = EUAScheduler(
             quantum=dados.get("quantum", 2),
             sobrecarga=dados.get("sobrecarga", 1)
         )
