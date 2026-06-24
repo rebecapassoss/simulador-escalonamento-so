@@ -14,17 +14,27 @@ class PriorityScheduler:
                     
             if prontos:
                 maior = prontos[0]
+
                 for p in prontos:
                     if p.prioridade > maior.prioridade:
-                        maior =p
+                        maior = p
+
+                    if maior.inicio is None:
+                        maior.inicio = tempo
+
+
                 gantt.append({
                     'processo': maior.pid,
                     'tempo': tempo
                 })
+
                 maior.restante -= 1
+
                 if maior.restante == 0:
+                    maior.termino = tempo + 1
                     prontos.remove(maior)
             else:
+               
                 gantt.append({
                     "tempo": tempo,
                     "processo": "ocioso"

@@ -14,7 +14,12 @@ class CFSScheduler:
                 menor = prontos[0]
                 for p in prontos:
                     if p.vruntime < menor.vruntime:
-                        menor = p     
+                        menor = p  
+
+
+                if menor.inicio is None:
+                    menor.inicio = tempo
+
                 gantt.append({
                     "processo": menor.pid,
                     "tempo": tempo
@@ -24,8 +29,13 @@ class CFSScheduler:
                 menor.vruntime += 1
 
                 if menor.restante == 0:
+
+                    menor.termino = tempo + 1
+
                     prontos.remove(menor)
+
             else:
+                    
                 gantt.append({
                     "tempo": tempo,
                     "processo": "ocioso"

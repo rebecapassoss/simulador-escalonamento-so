@@ -25,14 +25,19 @@ class EDFScheduler:
 
                         menor = p
 
+                if menor.inicio is None:
+                    menor.inicio = tempo
+
                 gantt.append({
-                    'processo': menor.pid,
-                    'tempo': tempo
+                    "processo": menor.pid,
+                    "tempo": tempo
                 })
 
                 menor.restante -= 1
 
                 if menor.restante == 0:
+
+                    menor.termino = tempo + 1
 
                     prontos.remove(menor)
 

@@ -1,4 +1,5 @@
 import os
+import copy
 
 from utils.export_table import save_table
 from utils.parser import parse_args
@@ -6,6 +7,7 @@ from utils.loader import load_processes
 from utils.logger import setup_logger
 from utils.directories import create_output_dirs
 from utils.save_results import save_gantt, save_metrics
+from utils.metrics import calculate_metrics
 
 from algorithms.edf import EDFScheduler
 from algorithms.prioridade import PriorityScheduler
@@ -31,6 +33,10 @@ def main():
 
     # Carrega JSON
     dados, processos = load_processes(args.input)
+
+    processos_execucao = processos.copy()
+
+    processos_metricas = processos.copy()
 
     logger.info(f"{len(processos)} processos carregados")
 
@@ -66,7 +72,8 @@ def main():
         raise ValueError("Algoritmo inválido")
 
     # Executa
-    resultado = scheduler.run(processos)
+    resultado = scheduler.run(processos_execucao)
+
 
     logger.info("Simulação concluída")
 
@@ -78,10 +85,12 @@ def main():
 
     logger.info(f"Resultado salvo em outputs/tables/{args.alg.lower()}_table.csv")
 
-    metricas = {
-    "tempo_total": len(resultado)
-    }
+   
 
+    metricas = calculate_metrics(
+       resultado,
+       processos_metricas
+)   
     save_metrics(metricas, args.alg)
 
 if __name__ == "__main__":
