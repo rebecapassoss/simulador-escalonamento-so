@@ -16,6 +16,7 @@ from algorithms.round_robin import RoundRobinScheduler
 from algorithms.eua import EUAScheduler
 
 from visualization.gantt_plot import generate_gantt
+from visualization.comparison_plot import generate_comparison_chart
 
 
 ALGORITMOS = [
@@ -130,6 +131,11 @@ def main():
         save_comparison(resultados_comparacao)
 
         logger.info("Comparação salva em outputs/comparison/comparison.csv")
+
+        generate_comparison_chart()
+
+        logger.info("Gráfico de comparação salvo em outputs/comparison/comparison.png")
+
         logger.info("Execução de todos os algoritmos concluída com sucesso")
 
         return

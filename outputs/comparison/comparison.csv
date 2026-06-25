@@ -1,8 +1,0 @@
-algoritmo,tempo_total,throughput,tempo_ocioso,tempo_sobrecarga,utilizacao_cpu,utilizacao_cpu_real,trocas_contexto,preempcoes,turnaround_medio,waiting_time_medio,response_time_medio,deadline_miss,deadline_miss_rate
-FCFS,15,0.1333,0,0,100.0,100.0,1,0,12.5,5.0,5.0,2,100.0
-SJF,15,0.1333,0,0,100.0,100.0,1,0,10.0,2.5,2.5,2,100.0
-ROUND_ROBIN,21,0.0952,0,6,100.0,71.43,6,6,18.5,11.0,1.5,2,100.0
-PRIORIDADE,15,0.1333,0,0,100.0,100.0,1,0,12.5,5.0,5.0,2,100.0
-EDF,15,0.1333,0,0,100.0,100.0,1,0,12.5,5.0,5.0,2,100.0
-CFS,15,0.1333,0,0,100.0,100.0,10,9,12.5,5.0,0.5,2,100.0
-EUA,21,0.0952,0,6,100.0,71.43,6,6,18.5,11.0,1.5,2,100.0

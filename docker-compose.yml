@@ -13,4 +13,4 @@ services:
 
     command: >
       --alg ALL
-      --input inputs/caso3.json
+      --input inputs/caso_preempcao.json

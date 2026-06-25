@@ -37,7 +37,7 @@ class EDFScheduler:
                     and ativo_anterior != menor
                     and ativo_anterior.restante > 0
                 ):
-                    evento["preempcao"] = True
+                    gantt[-1]["preempcao"] = True
 
                 gantt.append(evento)
 
