@@ -1,0 +1,18 @@
+{
+  "processos": [
+    {
+      "id": "P1",
+      "chegada": 0,
+      "execucao": 10,
+      "prioridade": 1,
+      "deadline": 3
+    },
+    {
+      "id": "P2",
+      "chegada": 0,
+      "execucao": 5,
+      "prioridade": 1,
+      "deadline": 4
+    }
+  ]
+}

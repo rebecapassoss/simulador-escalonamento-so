@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   simulador:
@@ -14,5 +12,5 @@ services:
       - ./outputs:/app/outputs
 
     command: >
-      --alg EDF
-      --input inputs/caso2.json
+      --alg ALL
+      --input inputs/caso3.json

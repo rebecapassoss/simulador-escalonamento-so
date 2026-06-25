@@ -93,6 +93,9 @@ class RoundRobinScheduler:
 
             # --- quantum esgotado e processo ainda não terminou ---
             elif contador_quantum >= self.quantum:
+
+                gantt[-1]["preempcao"] = True
+                
                 em_sobrecarga = True
                 ticks_sobrecarga = 0
 

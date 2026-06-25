@@ -82,3 +82,7 @@ O simulador gerará na pasta `outputs/`:
   - turnaround
   - throughput
   - % de ociosidade da CPU
+
+
+- **Para limpar arquivos gerados, como PNG, CSV, logs e JSONs.**
+  - find outputs -type f \( -name "*.json" -o -name "*.png" -o -name "*.csv" -o -name "*.log" \) -delete

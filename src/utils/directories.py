@@ -7,7 +7,8 @@ def create_output_dirs():
         "outputs/gantt",
         "outputs/logs",
         "outputs/metrics",
-        "outputs/tables"
+        "outputs/tables",
+        "outputs/comparison"
     ]
 
     for directory in directories:

@@ -1,6 +1,7 @@
 import logging
 import os
 
+
 def setup_logger():
 
     os.makedirs("outputs/logs", exist_ok=True)
@@ -8,7 +9,11 @@ def setup_logger():
     logging.basicConfig(
         filename="outputs/logs/simulator.log",
         level=logging.INFO,
-        format="%(asctime)s - %(message)s"
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        encoding="utf-8",
+        force=True
     )
 
-    return logging.getLogger()
+    logger = logging.getLogger("simulador")
+
+    return logger

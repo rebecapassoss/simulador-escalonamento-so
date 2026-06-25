@@ -1,7 +1,3 @@
-import os
-import copy
-
-from utils import logger
 from utils.export_table import save_table
 from utils.parser import parse_args
 from utils.loader import load_processes
@@ -9,72 +5,57 @@ from utils.logger import setup_logger
 from utils.directories import create_output_dirs
 from utils.save_results import save_gantt, save_metrics
 from utils.metrics import calculate_metrics
+from utils.export_comparison import save_comparison
 
 from algorithms.edf import EDFScheduler
 from algorithms.prioridade import PriorityScheduler
 from algorithms.cfs import CFSScheduler
 from algorithms.fcfs import FCFSScheduler
-from algorithms.sjf  import SJFScheduler
+from algorithms.sjf import SJFScheduler
 from algorithms.round_robin import RoundRobinScheduler
 from algorithms.eua import EUAScheduler
 
 from visualization.gantt_plot import generate_gantt
 
 
+ALGORITMOS = [
+    "FCFS",
+    "SJF",
+    "ROUND_ROBIN",
+    "PRIORIDADE",
+    "EDF",
+    "CFS",
+    "EUA"
+]
 
 
-def main():
+def get_scheduler(algoritmo, dados):
 
-    # CLI
-    args = parse_args()
+    algoritmo = algoritmo.upper()
 
-    # Logger
-    logger = setup_logger()
+    if algoritmo == "EDF":
+        return EDFScheduler()
 
-    logger.info("Iniciando simulador")
+    elif algoritmo in ["PRIORITY", "PRIORIDADE"]:
+        return PriorityScheduler()
 
-    create_output_dirs()
+    elif algoritmo == "CFS":
+        return CFSScheduler()
 
-    # Carrega JSON
-    dados, processos = load_processes(args.input)
+    elif algoritmo == "FCFS":
+        return FCFSScheduler()
 
-    processos_execucao = processos.copy()
+    elif algoritmo == "SJF":
+        return SJFScheduler()
 
-    processos_metricas = processos.copy()
-
-    logger.info(f"{len(processos)} processos carregados")
-
-    # Seleção do algoritmo
-    if args.alg.upper() == "EDF":
-
-        scheduler = EDFScheduler()
-
-    elif args.alg.upper() == "PRIORIDADE":
-
-        scheduler = PriorityScheduler()
-        
-    elif args.alg.upper() == "CFS":
-
-        scheduler = CFSScheduler()
-        
-    elif args.alg.upper() == "FCFS":
-
-        scheduler = FCFSScheduler()
-
-    elif args.alg.upper() == "SJF":
-
-        scheduler = SJFScheduler()
-
-    elif args.alg.upper() == "ROUND_ROBIN":
-
-        scheduler = RoundRobinScheduler(
+    elif algoritmo in ["ROUND_ROBIN", "RR"]:
+        return RoundRobinScheduler(
             quantum=dados.get("quantum", 2),
             sobrecarga=dados.get("sobrecarga", 1)
         )
 
-    elif args.alg.upper() == "EUA":
-
-        scheduler = EUAScheduler(
+    elif algoritmo == "EUA":
+        return EUAScheduler(
             quantum=dados.get("quantum", 2),
             sobrecarga=dados.get("sobrecarga", 1)
         )
@@ -82,39 +63,84 @@ def main():
     else:
         raise ValueError("Algoritmo inválido")
 
-    # Executa
+
+def run_simulation(algoritmo, input_path, logger):
+
+    dados, processos = load_processes(input_path)
+
+    processos_execucao = processos.copy()
+
+    scheduler = get_scheduler(algoritmo, dados)
+
+    logger.info(f"Iniciando execução do algoritmo: {algoritmo.upper()}")
+
     resultado = scheduler.run(processos_execucao)
 
-
-    logger.info("Simulação concluída")
-
-    save_gantt(resultado, args.alg)
-
-    generate_gantt(
-        resultado,
-        args.alg
-    )
-
-    logger.info("Resultado salvo com sucesso")
-
-    save_table(processos, args.alg)
-
-    logger.info(f"Resultado salvo em outputs/tables/{args.alg.lower()}_table.csv")
-
-
-
-   
     metricas = calculate_metrics(
-       resultado,
-       processos_metricas,
-       args.alg
-)   
-    save_metrics(metricas, args.alg)
-
-
-    logger.info(
-        f"Gantt salvo em outputs/gantt/{args.alg.lower()}_gantt.png"
+        resultado,
+        processos,
+        algoritmo
     )
+
+    save_gantt(resultado, algoritmo)
+    logger.info(f"Gantt JSON salvo em outputs/gantt/{algoritmo.lower()}_gantt.json")
+
+    generate_gantt(resultado, algoritmo)
+    logger.info(f"Gantt PNG salvo em outputs/gantt/{algoritmo.lower()}_gantt.png")
+
+    save_table(processos, algoritmo)
+    logger.info(f"Tabela salva em outputs/tables/{algoritmo.lower()}_table.csv")
+
+    save_metrics(metricas, algoritmo)
+    logger.info(f"Métricas salvas em outputs/metrics/{algoritmo.lower()}_metrics.json")
+
+    logger.info(f"Execução do algoritmo {algoritmo.upper()} concluída")
+
+    metricas["algoritmo"] = algoritmo.upper()
+
+    return metricas
+
+
+def main():
+
+    args = parse_args()
+
+    create_output_dirs()
+
+    logger = setup_logger()
+
+    logger.info("Iniciando simulador")
+    logger.info(f"Algoritmo selecionado: {args.alg.upper()}")
+    logger.info(f"Arquivo de entrada: {args.input}")
+
+    if args.alg.upper() == "ALL":
+
+        resultados_comparacao = []
+
+        for algoritmo in ALGORITMOS:
+
+            metricas = run_simulation(
+                algoritmo,
+                args.input,
+                logger
+            )
+
+            resultados_comparacao.append(metricas)
+
+        save_comparison(resultados_comparacao)
+
+        logger.info("Comparação salva em outputs/comparison/comparison.csv")
+        logger.info("Execução de todos os algoritmos concluída com sucesso")
+
+        return
+
+    run_simulation(
+        args.alg,
+        args.input,
+        logger
+    )
+
+    logger.info("Simulação concluída com sucesso")
 
 
 if __name__ == "__main__":

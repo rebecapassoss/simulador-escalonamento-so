@@ -113,6 +113,9 @@ class EUAScheduler:
 
             # --- quantum esgotado ---
             elif ticks_executando >= self.quantum:
+
+                gantt[-1]["preempcao"] = True
+                
                 em_sobrecarga = True
                 ticks_sobrecarga = 0
 
