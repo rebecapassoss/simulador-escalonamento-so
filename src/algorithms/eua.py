@@ -21,8 +21,7 @@ class EUAScheduler:
         self.sobrecarga = sobrecarga
 
     def run(self, processos):
-        import copy
-        procs = copy.deepcopy(processos)
+        procs = processos
 
         # inicializa urgência de todos
         for p in procs:

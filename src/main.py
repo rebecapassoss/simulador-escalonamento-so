@@ -94,7 +94,6 @@ def main():
     logger.info(f"Resultado salvo em outputs/tables/{args.alg.lower()}_table.csv")
 
    
-
     metricas = calculate_metrics(
        resultado,
        processos_metricas
