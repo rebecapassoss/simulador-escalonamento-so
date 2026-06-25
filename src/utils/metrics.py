@@ -16,7 +16,7 @@ def count_preemptions(gantt):
     return preempcoes
 
 
-def calculate_metrics(gantt, processos):
+def calculate_metrics(gantt, processos, algoritmo):
 
     tempo_total = len(gantt)
 
@@ -35,19 +35,35 @@ def calculate_metrics(gantt, processos):
         / tempo_total
     ) * 100
 
-    preempcoes = count_preemptions(gantt)
+    if algoritmo.upper() in [
+        "EDF",
+        "ROUND_ROBIN",
+        "CFS",
+        "EUA"
+    ]:
+        preempcoes = count_preemptions(gantt)
+    else:
+        preempcoes = 0
 
     total_processos = len(processos)
 
     turnaround_medio = calculate_turnaround_medio(processos)
+
+    waiting_time_medio = calculate_waiting_time_medio(processos)
+
+    response_time_medio = calculate_response_time_medio(
+    processos
+)
 
     return {
         "tempo_total": tempo_total,
         "throughput": round(throughput, 4),
         "tempo_ocioso": tempo_ocioso,
         "utilizacao_cpu": round(utilizacao_cpu, 2),
-        "preempcoes": preempcoes,
-        "turnaround_medio": turnaround_medio
+        "trocas_contexto": preempcoes,
+        "turnaround_medio": turnaround_medio,
+        "waiting_time_medio": waiting_time_medio,
+        "response_time_medio": response_time_medio
     }
 
 def calculate_turnaround_medio(processos):
@@ -59,6 +75,38 @@ def calculate_turnaround_medio(processos):
         turnaround = p.termino - p.chegada
 
         soma += turnaround
+
+    return round(
+        soma / len(processos),
+        2
+    )
+
+def calculate_waiting_time_medio(processos):
+
+    soma = 0
+
+    for p in processos:
+
+        turnaround = p.termino - p.chegada
+
+        espera = turnaround - p.execucao
+
+        soma += espera
+
+    return round(
+        soma / len(processos),
+        2
+    )
+
+def calculate_response_time_medio(processos):
+
+    soma = 0
+
+    for p in processos:
+
+        response = p.inicio - p.chegada
+
+        soma += response
 
     return round(
         soma / len(processos),

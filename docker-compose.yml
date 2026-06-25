@@ -15,4 +15,4 @@ services:
 
     command: >
       --alg EDF
-      --input inputs/caso1.json
+      --input inputs/caso2.json

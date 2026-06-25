@@ -14,6 +14,13 @@
       "execucao": 4,
       "deadline": 12,
       "prioridade": 1
+    },
+    {
+      "id": "P3",
+      "chegada": 2,
+      "execucao": 3,
+      "deadline": 10,
+      "prioridade": 3
     }
   ]
 }

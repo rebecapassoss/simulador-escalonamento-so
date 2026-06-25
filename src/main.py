@@ -1,6 +1,7 @@
 import os
 import copy
 
+from utils import logger
 from utils.export_table import save_table
 from utils.parser import parse_args
 from utils.loader import load_processes
@@ -16,6 +17,8 @@ from algorithms.fcfs import FCFSScheduler
 from algorithms.sjf  import SJFScheduler
 from algorithms.round_robin import RoundRobinScheduler
 from algorithms.eua import EUAScheduler
+
+from visualization.gantt_plot import generate_gantt
 
 
 
@@ -46,7 +49,7 @@ def main():
 
         scheduler = EDFScheduler()
 
-    elif args.alg.upper() == "PRIORITY":
+    elif args.alg.upper() == "PRIORIDADE":
 
         scheduler = PriorityScheduler()
         
@@ -87,18 +90,32 @@ def main():
 
     save_gantt(resultado, args.alg)
 
+    generate_gantt(
+        resultado,
+        args.alg
+    )
+
     logger.info("Resultado salvo com sucesso")
 
     save_table(processos, args.alg)
 
     logger.info(f"Resultado salvo em outputs/tables/{args.alg.lower()}_table.csv")
 
+
+
    
     metricas = calculate_metrics(
        resultado,
-       processos_metricas
+       processos_metricas,
+       args.alg
 )   
     save_metrics(metricas, args.alg)
+
+
+    logger.info(
+        f"Gantt salvo em outputs/gantt/{args.alg.lower()}_gantt.png"
+    )
+
 
 if __name__ == "__main__":
     main()
