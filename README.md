@@ -271,6 +271,7 @@ Para executar:
 
 ```bash
 make front
+```
 
 
 ## Dependências
