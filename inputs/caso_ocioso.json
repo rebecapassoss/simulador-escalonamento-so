@@ -1,0 +1,19 @@
+{
+  "seed": 2,
+  "processos": [
+    {
+      "id": "P1",
+      "chegada": 5,
+      "execucao": 3,
+      "prioridade": 2,
+      "deadline": 12
+    },
+    {
+      "id": "P2",
+      "chegada": 7,
+      "execucao": 2,
+      "prioridade": 1,
+      "deadline": 15
+    }
+  ]
+}

@@ -14,3 +14,20 @@ services:
     command: >
       --alg ALL
       --input inputs/caso_preempcao.json
+
+  streamlit:
+    build: .
+    container_name: simulador_streamlit
+
+    volumes:
+      - ./src:/app/src
+      - ./inputs:/app/inputs
+      - ./outputs:/app/outputs
+
+    ports:
+      - "8501:8501"
+
+    entrypoint: >
+      streamlit run src/app.py
+      --server.address=0.0.0.0
+      --server.port=8501

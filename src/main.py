@@ -52,13 +52,14 @@ def get_scheduler(algoritmo, dados):
     elif algoritmo in ["ROUND_ROBIN", "RR"]:
         return RoundRobinScheduler(
             quantum=dados.get("quantum", 2),
-            sobrecarga=dados.get("sobrecarga", 1)
+            sobrecarga=dados.get("sobrecarga", dados.get("sobrecarga_contexto", 1)
+)
         )
 
     elif algoritmo == "EUA":
         return EUAScheduler(
             quantum=dados.get("quantum", 2),
-            sobrecarga=dados.get("sobrecarga", 1)
+            sobrecarga=dados.get("sobrecarga", dados.get("sobrecarga_contexto", 1))
         )
 
     else:
@@ -86,10 +87,10 @@ def run_simulation(algoritmo, input_path, logger):
     save_gantt(resultado, algoritmo)
     logger.info(f"Gantt JSON salvo em outputs/gantt/{algoritmo.lower()}_gantt.json")
 
-    generate_gantt(resultado, algoritmo)
+    generate_gantt(resultado, algoritmo, processos)
     logger.info(f"Gantt PNG salvo em outputs/gantt/{algoritmo.lower()}_gantt.png")
 
-    save_table(processos, algoritmo)
+    save_table(processos, algoritmo, resultado)
     logger.info(f"Tabela salva em outputs/tables/{algoritmo.lower()}_table.csv")
 
     save_metrics(metricas, algoritmo)

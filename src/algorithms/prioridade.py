@@ -19,7 +19,7 @@ class PriorityScheduler:
                 maior = prontos[0]
 
                 for p in prontos:
-                    if p.prioridade > maior.prioridade:
+                    if p.prioridade < maior.prioridade:
                         maior = p
 
                 if maior.inicio is None:
