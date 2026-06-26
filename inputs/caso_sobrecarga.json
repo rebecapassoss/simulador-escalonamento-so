@@ -1,0 +1,28 @@
+{
+  "seed": 4,
+  "quantum": 2,
+  "sobrecarga": 1,
+  "processos": [
+    {
+      "id": "P1",
+      "chegada": 0,
+      "execucao": 6,
+      "prioridade": 1,
+      "deadline": 20
+    },
+    {
+      "id": "P2",
+      "chegada": 0,
+      "execucao": 6,
+      "prioridade": 1,
+      "deadline": 20
+    },
+    {
+      "id": "P3",
+      "chegada": 0,
+      "execucao": 6,
+      "prioridade": 1,
+      "deadline": 20
+    }
+  ]
+}
