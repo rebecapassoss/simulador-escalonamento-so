@@ -9,11 +9,12 @@ class EUAScheduler:
 
     Regras:
     - Urgência começa em 0 quando o processo chega.
-    - A cada unidade de tempo parado na fila, urgência += 1.
-    - A CPU sempre escolhe o processo de maior urgência.
+    - A cada tick na fila, a urgência aumenta somando o tempo total de espera (tempo - chegada).
+    - A CPU sempre escolhe o processo de maior urgência acumulada.
     - Empate: desempata por chegada (quem chegou antes).
-    - Ao executar por uma fatia (quantum), urgência zera.
-    - Preemptivo: a cada quantum, reavalia quem tem maior urgência.
+    - Ao ser preemptado (fim do quantum), a urgência do processo zera.
+    - Preemptivo Inteligente: a preempção e a sobrecarga só ocorrem ao fim do quantum 
+      se houver outros processos aguardando na fila de prontos.
     """
 
     def __init__(self, quantum=2, sobrecarga=1):
@@ -58,7 +59,7 @@ class EUAScheduler:
 
                 # acumula urgência de quem está esperando durante a sobrecarga
                 for p in prontos:
-                    p.urgencia += 1
+                    p.urgencia += (tempo - p.chegada)
 
                 if ticks_sobrecarga >= self.sobrecarga:
                     em_sobrecarga = False
@@ -103,7 +104,7 @@ class EUAScheduler:
 
             # acumula urgência de quem está esperando
             for p in prontos:
-                p.urgencia += 1
+                p.urgencia += (tempo - p.chegada)
 
             # --- processo terminou ---
             if atual.restante == 0:
@@ -114,9 +115,11 @@ class EUAScheduler:
             # --- quantum esgotado ---
             elif ticks_executando >= self.quantum:
 
-                gantt[-1]["preempcao"] = True
-                
-                em_sobrecarga = True
-                ticks_sobrecarga = 0
+                if len(prontos) > 0:
+                    gantt[-1]["preempcao"] = True
+                    em_sobrecarga = True
+                    ticks_sobrecarga = 0
+                else:
+                    ticks_executando = 0
 
         return gantt
